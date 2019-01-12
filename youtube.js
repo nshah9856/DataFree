@@ -18,7 +18,7 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
         var d = 'Top ' + numSearches + ' Trending on YouTube: \n' //PUT SEARCHCES TITLES AND NUMS ; LOOP T HROUGH HERE
         for (var i=1; i<=out.items.length; i++){
             var vidID = out.items[i-1].id
-            
+
             let videoUrl = `https://www.googleapis.com/youtube/v3/videos?id=${vidID}&key=${process.env.YOUTUBE_KEY}&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`
             const vidData = await fetch(videoUrl)
             const vidOut = await vidData.json()
@@ -26,7 +26,7 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
         }
         await client.messages.create({
             to: to,
-            from: process.env.TWILIO_NUMBER, 
+            from: process.env.TWILIO_NUMBER,
             body: `${d}`
         });
         console.log('Request sent');
@@ -37,4 +37,3 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
 
     sendTextMessage(to)
 }
-

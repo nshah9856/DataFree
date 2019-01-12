@@ -22,9 +22,9 @@ app.post('/sms', (req, res) => {
     } else if (user_message.startsWith("what is youtube top ")){
       getYoutubeTrending(user_message.split(" ").slice(-1), req.body.From)
 
-  } else if (user_message.startsWith("what news is trending for ")){
-      
-      getNews(user_message.split(" ").slice(-1), req.body.From)
+  } else if (user_message.startsWith("trending news")){
+
+      getNews(req.body.From)
 
     } else if(user_message.startsWith("reddit")){
         getRedditPosts(req.body.From)

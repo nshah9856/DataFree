@@ -1,31 +1,27 @@
-var unirest = require('unirest');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-const dotenv = require("dotenv")
-dotenv.load()
 
-module.exports = exports = function getNews(search, to){
+const dotnev = require("dotenv")
+dotnev.load()
+
+module.exports = exports = function getNews(to){
     var twilio = require('twilio');
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
 
-    let url = `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI?autoCorrect=true&pageNumber=1&pageSize=3&q=${search}&safeSearch=false`
-    var rqst = unirest.get(url);
-    var hdr = rqst.header("X-RapidAPI-Key", process.env.NEWS_KEY);
-
-    // Construct message
-    var d = search + "News \n";
-
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
     async function sendTextMessage(to) {
         try {
         const data = await fetch(url)
         const out = await data.json()
-        for (var i=0; i<3; i++) {
-            d += hdr.end(function (result) {
-              result.body.value[i].title,
-              result.body.value[i].url,
-              result.body.value[i].description});
+        var d = 'Top Trending News: \n' //PUT SEARCHCES TITLES AND NUMS ; LOOP T HROUGH HERE
+        for (var i=0; i<5; i++){
+
+            var articleTitle = out.articles[i].title;
+            var articleUrl = out.articles[i].url;
+
+            d = d + (i+1) + ". " + articleTitle + " \n" + articleUrl + "\n\n";
         }
         await client.messages.create({
             to: to,
