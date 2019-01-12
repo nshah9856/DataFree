@@ -1,0 +1,19 @@
+{
+  "name": "alertify",
+  "version": "1.0.0",
+  "description": "Alertify is a system that alerts users on important events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nshah9856/Alertify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nshah9856/Alertify/issues"
+  },
+  "homepage": "https://github.com/nshah9856/Alertify#readme"
+}
