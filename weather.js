@@ -1,13 +1,8 @@
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-<<<<<<< Updated upstream
 const dotenv = require("dotenv")
 dotenv.load()
-=======
-const dotnev = require("dotenv")
-dotnev.load()
->>>>>>> Stashed changes
 
 module.exports = exports = function getWeather(location, to){
     var twilio = require('twilio');

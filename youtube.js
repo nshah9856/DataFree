@@ -1,9 +1,4 @@
-
-let key= "AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM";
 console.log("Youtube video link is: https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&gl=US&maxResults=10&key=AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM");
-// https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&gl=US&maxResults=25&key=AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM
-
-
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
