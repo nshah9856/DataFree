@@ -15,34 +15,40 @@ var T = new Twit({
   strictSSL:            true,     // optional - requires SSL certificates to be valid.
 })
 
-let string = "Trending on Twitter: \n"
+let string = ""
+var twilio = require('twilio');
 
  T.get('trends/place', {id:23424977, count:10}, function(err, data, response) {
     
       let d = Array(...Object.values( data[0].trends)).slice(0)
       d.sort((a,b) => b.tweet_volume - a.tweet_volume)
       for (i in d){
-        if (i < 5){
-          string += `${parseInt(i)+1}` + ". " + d[i].name + "\n" + d[i].url + "\n\n"
-        }
+        // if (i < num){
+          string += `${parseInt(i)+1}` + ". " + d[i].name + "tabs" + d[i].url + "\n"
+        // }
       }
     
 })
 
 module.exports = exports = 
-function getTwitterPosts(to){
-    var twilio = require('twilio');
+function getTwitterPosts(to, num){
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
 
     async function sendTextMessage(to) {
         try {
-          
+        let data = "Trending on Twitter: \n"
+        let spl = string.split('\n')
+        for( i in spl){
+          if (i < num){
+            data += spl[i].replace("tabs", "\n") + "\n\n"
+          }
+        }
 
         await client.messages.create({
             to: to,
             from: process.env.TWILIO_NUMBER, 
-            body: `${string}`
+            body: `${data}`
         });
         console.log('Request sent');
         } catch(error) {

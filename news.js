@@ -5,7 +5,7 @@ require('isomorphic-fetch');
 const dotnev = require("dotenv")
 dotnev.load()
 
-module.exports = exports = function getNews(to){
+module.exports = exports = function getNews(to, num){
     var twilio = require('twilio');
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
@@ -16,7 +16,7 @@ module.exports = exports = function getNews(to){
         const data = await fetch(url)
         const out = await data.json()
         var d = 'Top Trending News: \n' //PUT SEARCHCES TITLES AND NUMS ; LOOP T HROUGH HERE
-        for (var i=0; i<5; i++){
+        for (var i=0; i<num; i++){
 
             var articleTitle = out.articles[i].title;
             var articleUrl = out.articles[i].url;

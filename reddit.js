@@ -4,7 +4,7 @@ require('isomorphic-fetch');
 const dotenv = require("dotenv")
 dotenv.load()
 
-module.exports = exports = function getRedditPosts(to){
+module.exports = exports = function getRedditPosts(to, num){
     var twilio = require('twilio');
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
@@ -17,7 +17,7 @@ module.exports = exports = function getRedditPosts(to){
         const out = await data.json()
         let string = 'Top Trending Reddit Posts: \n' 
         for (i in out.data.children){
-            if (i < 5)
+            if (i < num)
             {var title = out.data.children[i].data.title
             var link = "reddit.com/" + out.data.children[i].data.permalink
             string += `${parseInt(i)+1}` + ". " +title + "\n" + link +"\n\n"}

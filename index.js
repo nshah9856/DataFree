@@ -40,19 +40,19 @@ app.post('/sms', (req, res) => {
     } 
 
     else if (user_message.startsWith("trending youtube")){
-      getYoutubeTrending(user_message.split(" ").slice(-1), req.body.From)
+      getYoutubeTrending(req.body.From,user_message.split(' ')[2] ? user_message.split(' ')[2] : 5)
     }
 
     else if (user_message.startsWith("trending news")){
-      getNews(req.body.From)
+      getNews(req.body.From,user_message.split(' ')[2] ? user_message.split(' ')[2] : 5)
     }
 
     else if(user_message.startsWith("trending reddit")){
-        getRedditPosts(req.body.From)
+        getRedditPosts(req.body.From,user_message.split(' ')[2] ? user_message.split(' ')[2] : 5)
     }
 
     else if(user_message.startsWith("trending twitter")){
-      getTwitterPosts(req.body.From)
+      getTwitterPosts(req.body.From,user_message.split(' ')[2] ? user_message.split(' ')[2] : 5)
     }
 
     else if(user_message.startsWith("direction")){
