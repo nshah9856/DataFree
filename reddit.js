@@ -18,7 +18,7 @@ module.exports = exports = function getRedditPosts(to){
 
         let string = ""
         for (i in out.data.children){
-            if (i < 10)
+            if (i < 5)
             {var title = out.data.children[i].data.title
             var link = "reddit.com/" + out.data.children[i].data.permalink
             string += title + "\n" + link +"\n\n"}
