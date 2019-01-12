@@ -6,6 +6,7 @@ const MessagingResponse = require("twilio").twiml.MessagingResponse
 const getWeather = require("./weather.js");
 const getYoutubeTrending = require("./youtube.js");
 const getRedditPosts = require('./reddit')
+const getTwitterPosts = require('./twitter')
 const getNews = require("./news.js");
 const app = express()
 
@@ -28,6 +29,9 @@ app.post('/sms', (req, res) => {
 
     } else if(user_message.startsWith("trending reddit")){
         getRedditPosts(req.body.From)
+    }
+    else if(user_message.startsWith("trending twitter")){
+      getTwitterPosts(req.body.From)
     }
     else if (user_message == 'bye') {
 

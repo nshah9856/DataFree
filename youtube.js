@@ -22,7 +22,7 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
             let videoUrl = `https://www.googleapis.com/youtube/v3/videos?id=${vidID}&key=${process.env.YOUTUBE_KEY}&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`
             const vidData = await fetch(videoUrl)
             const vidOut = await vidData.json()
-            d = d + i +". " + vidOut.items[0].snippet.title + "\n " + "https://www.youtube.com/watch?v="+ vidID + "\n"
+            d = d + i +". " + vidOut.items[0].snippet.title + "\n " + "https://www.youtube.com/watch?v="+ vidID + "\n\n"
         }
         await client.messages.create({
             to: to,
