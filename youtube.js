@@ -26,7 +26,7 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
         }
         await client.messages.create({
             to: to,
-            from: '+14088821788', 
+            from: process.env.TWILIO_NUMBER, 
             body: `${d}`
         });
         console.log('Request sent');

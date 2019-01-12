@@ -12,7 +12,7 @@ module.exports = exports = function getNews(search, to){
 
     let url = `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI?autoCorrect=true&pageNumber=1&pageSize=3&q=${search}&safeSearch=false`
     var rqst = unirest.get(url);
-    var hdr = rqst.header("X-RapidAPI-Key", "zeN5uN1iRwmsh2snD3HP4jjd6jA9p1Gmi7VjsnUWHwEDDqP7gr");
+    var hdr = rqst.header("X-RapidAPI-Key", process.env.NEWS_KEY);
 
     // Construct message
     var d = search + "News \n";
@@ -29,7 +29,7 @@ module.exports = exports = function getNews(search, to){
         }
         await client.messages.create({
             to: to,
-            from: '+14088821788',
+            from: process.env.TWILIO_NUMBER,
             body: `${d}`
         });
         console.log('Request sent');

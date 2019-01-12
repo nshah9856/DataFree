@@ -18,7 +18,7 @@ module.exports = exports = function getWeather(location, to){
         var d = 'Current temperature is: ' + Math.round(out.main.temp) + "\nMinumum today: " + Math.round(out.main.temp_min) + "\nMaximum today: " + Math.round(out.main.temp_max)
         await client.messages.create({
             to: to,
-            from: '+14088821788', 
+            from: process.env.TWILIO_NUMBER, 
             body: `${d}`
         });
         console.log('Request sent');

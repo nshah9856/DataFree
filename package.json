@@ -25,6 +25,7 @@
     "http": "0.0.0",
     "isomorphic-fetch": "^2.2.1",
     "twilio": "^3.27.1",
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "unirest": "^0.5.1"
   }
 }
