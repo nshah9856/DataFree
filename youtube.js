@@ -5,7 +5,7 @@ require('isomorphic-fetch');
 const dotenv = require("dotenv")
 dotenv.load()
 
-module.exports = exports = function getYoutubeTrending(numSearches, to){
+module.exports = exports = function getYoutubeTrending(to,numSearches){
     var twilio = require('twilio');
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
