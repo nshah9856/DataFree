@@ -13,7 +13,6 @@ module.exports = exports = function getRedditPosts(to, num){
 
     async function sendTextMessage(to) {
         try {
-            console.log("NUmber: ", num)
         const data = await fetch(url)
         const out = await data.json()
         let string = 'Top Trending Reddit Posts: \n' 
