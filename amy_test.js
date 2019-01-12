@@ -26,7 +26,7 @@ module.exports = exports = function getNews(search, to){
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
 
-    let url = `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI?autoCorrect=true&pageNumber=1&pageSize=3&q=${search}&safeSearch=false`
+    let url = `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI?autoCorrect=true&pageNumber=1&pageSize=5&q=${search}&safeSearch=false`
     var rqst = unirest.get(url);
     var hdr = rqst.header("X-RapidAPI-Key", "zeN5uN1iRwmsh2snD3HP4jjd6jA9p1Gmi7VjsnUWHwEDDqP7gr");
 
@@ -39,8 +39,8 @@ module.exports = exports = function getNews(search, to){
         const out = await data.json()
         for (var i=0; i<3; i++) {
             d += hdr.end(function (result) {
-              result.body.value[i].title,
-              result.body.value[i].url, result.body.value[i].description)};
+              console.log(result.body.value[i].title,
+              result.body.value[i].url, result.body.value[i].description)});
         }
         await client.messages.create({
             to: to,

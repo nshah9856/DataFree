@@ -17,10 +17,6 @@ app.post('/sms', (req, res) => {
 
       getWeather(user_message.split(" ").slice(-1), req.body.From)
 
-    } else if(user_message.startsWith("news")) {
-        
-      getNews(user_message.split(" ").slice(-1), req.body.From)
-
     } else if (user_message == 'bye') {
 
       twiml.message('Goodbye');
@@ -32,7 +28,7 @@ app.post('/sms', (req, res) => {
       );
 
     }
-
+  
     res.writeHead(200, { 'Content-Type': 'text/xml' });
     res.end(twiml.toString());
   });
