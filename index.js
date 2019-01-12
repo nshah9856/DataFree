@@ -24,4 +24,8 @@ app.post('/sms', (req, res) => {
     res.end(twiml.toString());
   });
 
+app.get('/', function (req, res) {
+  res.send('hello world')
+})
+
 http.createServer(app).listen(80, ()=> console.log("Listening on port 1337"))
