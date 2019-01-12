@@ -5,6 +5,7 @@ const MessagingResponse = require("twilio").twiml.MessagingResponse
 
 const getWeather = require("./weather.js");
 const getYoutubeTrending = require("./youtube.js");
+const getNews = require("./news.js");
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -20,7 +21,11 @@ app.post('/sms', (req, res) => {
     } else if (user_message.startsWith("what is youtube top ")){
       getYoutubeTrending(user_message.split(" ").slice(-1), req.body.From)
 
-    }else if (user_message == 'bye') {
+  } else if (user_message.startsWith("what news is trending for ")){
+      
+      getNews(user_message.split(" ").slice(-1), req.body.From)
+
+    } else if (user_message == 'bye') {
 
       twiml.message('Goodbye');
 
@@ -31,7 +36,7 @@ app.post('/sms', (req, res) => {
       );
 
     }
-  
+
     res.writeHead(200, { 'Content-Type': 'text/xml' });
     res.end(twiml.toString());
   });
