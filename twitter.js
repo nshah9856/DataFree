@@ -52,8 +52,16 @@ function getTwitterPosts(to, num){
         });
         console.log('Request sent');
         } catch(error) {
-        console.error(error);
-        }
+          if (error.code === 21617){
+            client.messages.create({
+                to: to,
+                from: process.env.TWILIO_NUMBER, 
+                body: `Too much data to display in a text message requested, lower the count!`
+            });
+        }else{
+            console.error(error)
+        }        
+      }
     }
 
     sendTextMessage(to)

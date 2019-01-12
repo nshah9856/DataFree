@@ -13,6 +13,7 @@ module.exports = exports = function getRedditPosts(to, num){
 
     async function sendTextMessage(to) {
         try {
+            console.log("NUmber: ", num)
         const data = await fetch(url)
         const out = await data.json()
         let string = 'Top Trending Reddit Posts: \n' 
@@ -30,7 +31,16 @@ module.exports = exports = function getRedditPosts(to, num){
         });
         console.log('Request sent');
         } catch(error) {
-        console.error(error);
+        
+            if (error.code === 21617){
+                client.messages.create({
+                    to: to,
+                    from: process.env.TWILIO_NUMBER, 
+                    body: `Too much data to display in a text message requested, lower the count!`
+                });
+            }else{
+                console.error(error)
+            }
         }
     }
 
