@@ -1,4 +1,3 @@
-console.log("Youtube video link is: https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&gl=US&maxResults=10&key=AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM");
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -11,7 +10,7 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
 
-    let url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&gl=US&maxResults=${numSearches}&key=AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM`
+    let url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&gl=US&maxResults=${numSearches}&key=${process.env.YOUTUBE_KEY}`
     async function sendTextMessage(to) {
         try {
         const data = await fetch(url)
@@ -20,10 +19,9 @@ module.exports = exports = function getYoutubeTrending(numSearches, to){
         for (var i=1; i<=out.items.length; i++){
             var vidID = out.items[i-1].id
             
-            let videoUrl = `https://www.googleapis.com/youtube/v3/videos?id=${vidID}&key=AIzaSyCCFpsCSr2aWaxWGZVb3V16rTjBn_YK5WM&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`
+            let videoUrl = `https://www.googleapis.com/youtube/v3/videos?id=${vidID}&key=${process.env.YOUTUBE_KEY}&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`
             const vidData = await fetch(videoUrl)
             const vidOut = await vidData.json()
-            console.log(vidOut.items[0].id)
             d = d + "#"+ i +": " + vidOut.items[0].snippet.title + ": " + "https://www.youtube.com/watch?v="+ vidID + "\n"
         }
         await client.messages.create({
