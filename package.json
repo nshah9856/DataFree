@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/nshah9856/Alertify#readme",
   "dependencies": {
     "dotenv": "^6.2.0",
+    "es6-promise": "^4.2.5",
     "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
     "twilio": "^3.27.1"
   }
 }
