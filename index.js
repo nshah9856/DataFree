@@ -17,16 +17,16 @@ app.post('/sms', (req, res) => {
 
     if (user_message.startsWith("what is the weather in") ){
 
-      getWeather(user_message.split(" ").slice(-1), req.body.From)
+      getWeather(user_message.substring(user_message.indexOf("in")+3,user_message.length), req.body.From)
 
-    } else if (user_message.startsWith("what is youtube top ")){
+    } else if (user_message.startsWith("trending youtube")){
       getYoutubeTrending(user_message.split(" ").slice(-1), req.body.From)
 
   } else if (user_message.startsWith("trending news")){
 
       getNews(req.body.From)
 
-    } else if(user_message.startsWith("reddit")){
+    } else if(user_message.startsWith("trending reddit")){
         getRedditPosts(req.body.From)
     }
     else if (user_message == 'bye') {
@@ -38,7 +38,6 @@ app.post('/sms', (req, res) => {
       twiml.message(
         'No Body param match, Twilio sends this in the request to your server.'
       );
-
     }
 
     res.writeHead(200, { 'Content-Type': 'text/xml' });

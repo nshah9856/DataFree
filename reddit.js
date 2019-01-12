@@ -15,13 +15,12 @@ module.exports = exports = function getRedditPosts(to){
         try {
         const data = await fetch(url)
         const out = await data.json()
-
-        let string = ""
+        let string = 'Top Trending Reddit Posts: \n' 
         for (i in out.data.children){
             if (i < 5)
             {var title = out.data.children[i].data.title
             var link = "reddit.com/" + out.data.children[i].data.permalink
-            string += title + "\n" + link +"\n\n"}
+            string += i + ". " +title + "\n" + link +"\n\n"}
         }
 
         await client.messages.create({
