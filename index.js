@@ -2,8 +2,10 @@ const http = require("http")
 const express = require("express")
 var bodyParser = require('body-parser');
 const MessagingResponse = require("twilio").twiml.MessagingResponse
+const VoiceResponse = require("twilio").twiml.VoiceResponse
 
 const getWeather = require("./weather.js");
+const getWeatherVoice = require("./weatherVoice.js")
 const getYoutubeTrending = require("./youtube.js");
 const getRedditPosts = require('./reddit')
 const getTwitterPosts = require('./twitter')
@@ -71,8 +73,34 @@ app.post('/sms', (req, res) => {
     res.end(twiml.toString());
   });
 
+
+
+app.post('/voice', (req, res) => {
+  const voice = new VoiceResponse();
+
+  const gather = voice.gather({
+    input: 'speech',
+    timeout: 2,
+    action : "/weather",
+    method: 'GET'
+  });
+  gather.say('Say a location');
+
+
+  // Render the response as XML in reply to the webhook request
+  res.type('text/xml');
+  res.send(voice.toString());
+  
+})
+
+app.get('/weather', (req, res) => {
+    let location = req.query.SpeechResult
+    getWeatherVoice(location, res)
+})
+
 app.get('/', function (req, res) {
   res.send('hello world')
+  
 })
 
 http.createServer(app).listen(process.env.PORT || 8000, ()=> console.log("Listening on port 1337"))
