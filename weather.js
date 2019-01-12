@@ -1,7 +1,7 @@
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-const dotnev = require("dotenv")
+const dotenv = require("dotenv")
 dotenv.load()
 
 module.exports = exports = function getWeather(location, to){
