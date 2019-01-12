@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/nshah9856/Alertify/issues"
   },
-  "homepage": "https://github.com/nshah9856/Alertify#readme"
+  "homepage": "https://github.com/nshah9856/Alertify#readme",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "twilio": "^3.27.1"
+  }
 }
