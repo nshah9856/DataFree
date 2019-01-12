@@ -8,6 +8,7 @@ const getYoutubeTrending = require("./youtube.js");
 const getRedditPosts = require('./reddit')
 const getTwitterPosts = require('./twitter')
 const getNews = require("./news.js");
+const getDirections = require("./directions.js")
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,7 +23,13 @@ app.post('/sms', (req, res) => {
     }
 
     else if(user_message.startsWith("list")){
-      let help = "Trending twitter - Know what's trending on Twitter\nTrending reddit - Know what's trending on Reddit\nTrending news - Know what's trending in the News\nTrending youtube - Know what's trending on YouTube\nWhat is the weather in (any location) - Know the weather even when away from data!"
+      let help = "Trending twitter - Know what's trending on Twitter\n" + 
+      "Trending reddit - Know what's trending on Reddit\n" + 
+      "Trending news - Know what's trending in the News\n" + 
+      "Trending youtube - Know what's trending on YouTube\n" + 
+      "What is the weather in (any location) - Know the weather even when away from data!\n" + 
+      "Direction <FROM> <TO> - List Directions when away from data! Format location by (address + city + state) <- no spaces OR (city)\n"
+      //directions: either <address + city + state> or <city to city>
       twiml.message(help)
     }
 
@@ -46,6 +53,10 @@ app.post('/sms', (req, res) => {
       getTwitterPosts(req.body.From)
     }
 
+    else if(user_message.startsWith("direction")){
+      getDirections(user_message.split(" ")[1], user_message.split(" ")[2],req.body.From)
+    }
+
     else if (user_message == 'bye') {
       twiml.message('Goodbye :)');
     } 
@@ -64,4 +75,4 @@ app.get('/', function (req, res) {
   res.send('hello world')
 })
 
-http.createServer(app).listen(process.env.PORT || 1337, ()=> console.log("Listening on port 1337"))
+http.createServer(app).listen(process.env.PORT || 8000, ()=> console.log("Listening on port 1337"))
