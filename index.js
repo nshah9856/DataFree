@@ -12,19 +12,21 @@ app.post('/sms', (req, res) => {
 
     let user_message = req.body.Body.toLowerCase()
     const twiml = new MessagingResponse();
-    if (user_message == `what is the weather in ${location}`) {
-        getWeather(location) 
-        .then (res => res.json())
-        .then((out) => {
-          twiml.message('Current temperature is: ' + Math.round(out.main.temp) + "\nMinumum today: " + Math.round(out.main.temp_min) + "\nMaximum today: " + Math.round(out.main.temp_max));
-        })
-        .catch(err => { throw err });
+
+    if (user_message.startsWith("what is the weather in") ){
+
+      getWeather(user_message.split(" ").slice(-1), req.body.From)
+
     } else if (user_message == 'bye') {
+
       twiml.message('Goodbye');
+
     } else {
+
       twiml.message(
         'No Body param match, Twilio sends this in the request to your server.'
       );
+
     }
   
     res.writeHead(200, { 'Content-Type': 'text/xml' });
