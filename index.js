@@ -30,7 +30,7 @@ app.post('/sms', (req, res) => {
       "Trending news - Know what's trending in the News\n" + 
       "Trending youtube - Know what's trending on YouTube\n" + 
       "What is the weather in (any location) - Know the weather even when away from data!\n" + 
-      "Direction <FROM> <TO> - List Directions when away from data! Format location by (address + city + state) <- no spaces OR (city)\n"
+      "Direction from <start> to <destination>  - List Directions when away from data! Format location by (address + city + state) OR (city)\n"
       //directions: either <address + city + state> or <city to city>
       twiml.message(help)
     }
@@ -56,7 +56,9 @@ app.post('/sms', (req, res) => {
     }
 
     else if(user_message.startsWith("direction")){
-      getDirections(user_message.split(" ")[1], user_message.split(" ")[2],req.body.From)
+      var endFromIndex = user_message.indexOf("from") + 5
+      var startToIndex = user_message.indexOf("to")
+      getDirections(user_message.substring(endFromIndex,startToIndex), user_message.split("to")[1],req.body.From)
     }
 
     else if (user_message == 'bye') {

@@ -15,10 +15,10 @@ module.exports = exports = function getDirections(startAddress, finalAddress, to
         try {
         const data = await fetch(url)
         const out = await data.json()
-        var d = "Directions FROM  " + startAddress + " TO " + finalAddress + "\n"
+        var d = "Directions FROM  " + startAddress + " TO " + finalAddress + ":\n"
         for (var i=1; i<=out.routes[0].legs[0].steps.length; i++){
-
             var StrippedString = out.routes[0].legs[0].steps[i-1].html_instructions.replace(/(<([^>]+)>)/ig,"");
+            var StrippedString  = StrippedString.replace("&nbsp;","")
             d = d + i +". " + StrippedString + "\n"
         }
 
