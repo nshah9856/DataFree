@@ -20,7 +20,7 @@ module.exports = exports = function getRedditPosts(to){
             if (i < 5)
             {var title = out.data.children[i].data.title
             var link = "reddit.com/" + out.data.children[i].data.permalink
-            string += (i+1) + ". " +title + "\n" + link +"\n\n"}
+            string += `${parseInt(i)+1}` + ". " +title + "\n" + link +"\n\n"}
         }
 
         await client.messages.create({
