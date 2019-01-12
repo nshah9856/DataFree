@@ -28,4 +28,4 @@ app.get('/', function (req, res) {
   res.send('hello world')
 })
 
-http.createServer(app).listen(1337, ()=> console.log("Listening on port 1337"))
+http.createServer(app).listen(process.env.PORT || 1337, ()=> console.log("Listening on port 1337"))
