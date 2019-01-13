@@ -21,6 +21,7 @@ function getWeather(location, res){
         response.say(d)
         response.say(d1)
         response.say(d2)
+        response.pause({length:1})
         res.type('text/xml');
         res.send(response.toString());
      }   catch(error) {
