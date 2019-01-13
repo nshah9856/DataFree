@@ -22,7 +22,12 @@ const getDirections = require("./sms/directions.js")
 const getGas = require("./sms/gas.js")
 const search = require("./sms/google.js")
 
+const path = require("path")
 const app = express()
+
+app.use(express.static(__dirname + '/View'));
+app.use(express.static(__dirname + '/Script'));
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.post('/sms', (req, res) => {
@@ -239,7 +244,7 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/', function (req, res) {
-  res.send('hello world')
+  res.sendFile(path.join(__dirname+'/index.html'));
 })
 
 http.createServer(app).listen(process.env.PORT || 8080, ()=> console.log("Listening on port 8080"))
