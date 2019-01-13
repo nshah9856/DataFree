@@ -27,14 +27,14 @@ app.post('/sms', (req, res) => {
 
     else if(user_message.startsWith("list")){
       let help = "Always know what is trending...\n" + 
-      "\tTrending reddit  [results]\n" + 
-      "\tTrending reddit  [results]\n" + 
-      "\tTrending news    [results]\n" + 
-      "\tTrending youtube [results]\n" + 
+      "\t\tTrending reddit  [results]\n" + 
+      "\t\tTrending reddit  [results]\n" + 
+      "\t\tTrending news    [results]\n" + 
+      "\t\tTrending youtube [results]\n" + 
       "Ask for weather in any location...\n"+
-      "\tWhat is the weather in (location)\n" + 
-      "Get directions without needing wifi/data...\n"
-      "\tDirection from (start) to (destination)\n"
+      "\t\tWhat is the weather in (location)\n" + 
+      "Get directions without needing wifi/data...\n" +
+      "\t\tDirection from (start) to (destination)\n"
       twiml.message(help)
     }
 
