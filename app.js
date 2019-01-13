@@ -118,18 +118,22 @@ app.post('/voice', (req, res) => {
     input: 'speech dtmf',
     action : '/menu',
     timeout:"3",
-    numDigits:"1"
+    numDigits:"1",
   })
-  gather.say('Press or say 1 to listen to the trending twitter hashtags')
-  gather.say('Press or say 2 to listen to the trending Youtube video titles')
-  gather.say('Press or say 3 to listen to the trending reddit posts titles')
-  gather.say('Press or say 4 to listen to the top news')
-  gather.say('Press or say 5 to get the weather for a location')
-  gather.say('Press or say 6 to find the nearest gas stations for a location')
-  gather.say('Press or say 7 to get directions from home to destination')
-  gather.say('Press or say 8 to ask google for anything')
   
-
+  for(var i = 0; i < 3; ++i){
+    gather.say('Press or say 1 to listen to the trending twitter hashtags')
+    gather.say('Press or say 2 to listen to the trending Youtube video titles')
+    gather.say('Press or say 3 to listen to the trending reddit posts titles')
+    gather.say('Press or say 4 to listen to the top news')
+    gather.say('Press or say 5 to get the weather for a location')
+    gather.say('Press or say 6 to find the nearest gas stations for a location')
+    gather.say('Press or say 7 to get directions from home to destination')
+    gather.say('Press or say 8 to ask google for anything')
+    
+    gather.pause({length:1})
+  }
+  
   // Render the response as XML in reply to the webhook request
   res.type('text/xml');
   res.send(voice.toString());
