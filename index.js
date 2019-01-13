@@ -21,7 +21,7 @@ app.post('/sms', (req, res) => {
     const twiml = new MessagingResponse();
 
     if (user_message.startsWith("hi") || user_message.startsWith("hello")){
-      let greet = "Hello there! Use the alertfy system to stay connected even when offline!\nAsk for \"list\" to see what you can ask us "
+      let greet = "Hello there! Use the alertify system to stay connected even when offline!\nAsk for \"list\" to see what you can ask us "
       twiml.message(greet)
     }
 
