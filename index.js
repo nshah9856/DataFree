@@ -28,8 +28,8 @@ app.post('/sms', (req, res) => {
     else if(user_message.startsWith("list")){
       let help = "Always know what is trending...\n" + 
       "     Trending twitter    [results]\n" + 
-      "     Trending reddit    [results]\n" + 
-      "     Trending news     [results]\n" + 
+      "     Trending reddit     [results]\n" + 
+      "     Trending news      [results]\n" + 
       "     Trending youtube [results]\n" + 
       "\nAsk for weather in any location...\n"+
       "     What is the weather in (location)\n" + 
