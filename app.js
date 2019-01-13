@@ -11,6 +11,7 @@ const getNewsVoice = require("./voice/newsVoice.js")
 const getYoutubeVoice = require("./voice/youtubeVoice.js")
 const getGasVoice = require("./voice/gasVoice.js")
 const directionVoice = require("./voice/directionVoice.js")
+const googleVoice = require("./voice/googleVoice")
 
 const getWeather = require("./sms/weather.js");
 const getYoutubeTrending = require("./sms/youtube.js");
@@ -19,6 +20,7 @@ const getTwitterPosts = require('./sms/twitter')
 const getNews = require("./sms/news.js");
 const getDirections = require("./sms/directions.js")
 const getGas = require("./sms/gas.js")
+const search = require("./sms/google.js")
 
 const app = express()
 
@@ -26,6 +28,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.post('/sms', (req, res) => {
 
     let user_message = req.body.Body.toLowerCase()
+    user_message = user_message.toLowerCase()
+
     const twiml = new MessagingResponse();
 
     if (user_message.startsWith("hi") || user_message.startsWith("hello")){
@@ -44,7 +48,9 @@ app.post('/sms', (req, res) => {
       "\nGet directions without needing wifi/data...\n" +
       "     Direction from (start) to (destination)\n" +
       "\nFind nearby gas stations...\n" +
-      "     Gas closest to (origin address) (results)"
+      "     Gas closest to (origin address) (results)\n\n" +
+      "Ask google...\n" +
+      "    google: (search)"
       twiml.message(help)
     }
 
@@ -78,8 +84,12 @@ app.post('/sms', (req, res) => {
         var usrInput = user_message.split("gas closest to ")[1];
         var resultsLastIndex = usrInput.lastIndexOf(" ");
         getGas(req.body.From, usrInput.substring(0, resultsLastIndex), parseInt(usrInput.substring(resultsLastIndex+1)));
+    }
 
-
+    else if(user_message.startsWith("google")){
+      var user_search = user_message.replace("google","")
+      user_search = user_search.replace(":","")
+      search(user_search, req.body.From, 5)
     }
 
     else if (user_message == 'bye') {
@@ -117,6 +127,8 @@ app.post('/voice', (req, res) => {
   gather.say('Press or say 5 to get the weather for a location')
   gather.say('Press or say 6 to find the nearest gas stations for a location')
   gather.say('Press or say 7 to get directions from home to destination')
+  gather.say('Press or say 8 to ask google for anything')
+  
 
   // Render the response as XML in reply to the webhook request
   res.type('text/xml');
@@ -169,18 +181,29 @@ app.post('/menu', (req, res) => {
       res.send(voice.toString());
       break
 
-      case 7:
-        const gather2 = voice.gather({
-          input: 'speech',
-          timeout: 5,
-          action : "/direction",
-          method: 'GET'
-        });
-        gather2.say('Say the current location and the destination');
-        res.type('text/xml');
-        res.send(voice.toString());
-        break
+    case 7:
+      const gather2 = voice.gather({
+        input: 'speech',
+        timeout: 5,
+        action : "/direction",
+        method: 'GET'
+      });
+      gather2.say('Say the current location and the destination');
+      res.type('text/xml');
+      res.send(voice.toString());
+      break
 
+    case 8:
+      const gather3 = voice.gather({
+        input: 'speech',
+        timeout: 5,
+        action : "/search",
+        method: 'GET'
+      });
+      gather3.say('Say what you want to search');
+      res.type('text/xml');
+      res.send(voice.toString());
+      break
     
     default:
       voice.say("Goodbye, call back anytime")
@@ -204,6 +227,11 @@ app.get('/gas', (req, res) => {
 app.get('/direction', (req, res) => {
   let location = req.query.SpeechResult.split("and")
   directionVoice(location[0], location[1], res)
+})
+
+app.get('/search', (req, res) => {
+  let search = req.query.SpeechResult
+  googleVoice(search, res)
 })
 
 app.get('/', function (req, res) {

@@ -16,14 +16,17 @@
   "bugs": {
     "url": "https://github.com/nshah9856/Alertify/issues"
   },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
-    },
-    "lint-staged": {
-      "*.{js,json,css,md}": ["prettier --write", "git add"]
-    },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "homepage": "https://github.com/nshah9856/Alertify#readme",
   "dependencies": {
     "body-parser": "^1.18.3",

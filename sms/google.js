@@ -1,33 +1,37 @@
- 
+
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-
 
 const dotenv = require("dotenv")
 dotenv.load()
 
-module.exports = exports = function getDirections(startAddress, finalAddress, to){
+module.exports = exports = 
+function search(search, to, num){
     var twilio = require('twilio');
 
     var client = new twilio(process.env.TWILIO_SID,process.env.TWILIO_AUTH); // TODO
-    let url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startAddress}&destination=${finalAddress}&key=${process.env.GOOGLEMAP_KEY}`
+
+    let url = `https://www.googleapis.com/customsearch/v1?key=AIzaSyAo_Gm8XXDV1lBIJDoiyr0S9NwKQQqy94s&cx=013122210725277253496:ts6w8ob_n5q&q=${search}`
+
     async function sendTextMessage(to) {
         try {
         const data = await fetch(url)
         const out = await data.json()
-        var d = "Directions FROM  " + startAddress + " TO " + finalAddress + ":\n"
-        for (var i=1; i<=out.routes[0].legs[0].steps.length; i++){
-            var StrippedString = out.routes[0].legs[0].steps[i-1].html_instructions.replace(/(<([^>]+)>)/ig,"");
-            var StrippedString  = StrippedString.replace("&nbsp;","")
-            d = d + i +". " + StrippedString + "\n"
+        let string = `Top Google results for ${search}:\n`
+        for (i in out.items){
+            if (i < num){
+                let title = out.items[i].title
+                let summary = out.items[i].snippet
+                
+                string += `${parseInt(i) + 1}. ${title}\n${summary}\n\n`
+            }
         }
-
         await client.messages.create({
             to: to,
-            from: process.env.TWILIO_NUMBER,
-            body: `${d}`
+            from: process.env.TWILIO_NUMBER, 
+            body: `${string}`
         });
-        console.log('Request sent');
+        console.log("Request sent")
         }  catch(error) {
             if (error.code === 21617){
                 client.messages.create({
@@ -40,5 +44,6 @@ module.exports = exports = function getDirections(startAddress, finalAddress, to
             }
                 }
     }
+
     sendTextMessage(to)
 }
