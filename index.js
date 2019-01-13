@@ -11,6 +11,7 @@ const getRedditPosts = require('./reddit')
 const getTwitterPosts = require('./twitter')
 const getNews = require("./news.js");
 const getDirections = require("./directions.js")
+
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -25,13 +26,15 @@ app.post('/sms', (req, res) => {
     }
 
     else if(user_message.startsWith("list")){
-      let help = "Trending twitter - Know what's trending on Twitter\n" + 
-      "Trending reddit - Know what's trending on Reddit\n" + 
-      "Trending news - Know what's trending in the News\n" + 
-      "Trending youtube - Know what's trending on YouTube\n" + 
-      "What is the weather in (any location) - Know the weather even when away from data!\n" + 
-      "Direction from <start> to <destination>  - List Directions when away from data! Format location by (address + city + state) OR (city)\n"
-      //directions: either <address + city + state> or <city to city>
+      let help = "Always know what is trending...\n" + 
+      "\tTrending reddit  [results]\n" + 
+      "\tTrending reddit  [results]\n" + 
+      "\tTrending news    [results]\n" + 
+      "\tTrending youtube [results]\n" + 
+      "Ask for weather in any location...\n"+
+      "\tWhat is the weather in (location)\n" + 
+      "Get directions without needing wifi/data...\n"
+      "\tDirection from (start) to (destination)\n"
       twiml.message(help)
     }
 
@@ -67,7 +70,7 @@ app.post('/sms', (req, res) => {
     
     else {
       twiml.message(
-        'No Body param match, Twilio sends this in the request to your server.'
+        'Please enter a valid command. Type \"list\" to know the commands!.'
       );
     }
 
