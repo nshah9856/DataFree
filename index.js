@@ -10,13 +10,13 @@ const getRedditVoice = require("./voice/redditVoice.js")
 const getNewsVoice = require("./voice/newsVoice.js")
 const getYoutubeVoice = require("./voice/youtubeVoice.js")
 
-const getWeather = require("./weather.js");
-const getYoutubeTrending = require("./youtube.js");
-const getRedditPosts = require('./reddit')
-const getTwitterPosts = require('./twitter')
-const getNews = require("./news.js");
-const getDirections = require("./directions.js")
-const getGas = require("./gas.js")
+const getWeather = require("./sms/weather.js");
+const getYoutubeTrending = require("./sms/youtube.js");
+const getRedditPosts = require('./sms/reddit')
+const getTwitterPosts = require('./sms/twitter')
+const getNews = require("./sms/news.js");
+const getDirections = require("./sms/directions.js")
+const getGas = require("./sms/gas.js")
 
 const app = express()
 
