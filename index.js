@@ -9,6 +9,8 @@ const getTwitterVoice = require("./voice/twitterVoice.js")
 const getRedditVoice = require("./voice/redditVoice.js")
 const getNewsVoice = require("./voice/newsVoice.js")
 const getYoutubeVoice = require("./voice/youtubeVoice.js")
+const getGasVoice = require("./voice/gasVoice.js")
+const directionVoice = require("./voice/directionVoice.js")
 
 const getWeather = require("./sms/weather.js");
 const getYoutubeTrending = require("./sms/youtube.js");
@@ -113,7 +115,8 @@ app.post('/voice', (req, res) => {
   gather.say('Press or say 3 to listen to the trending reddit posts titles')
   gather.say('Press or say 4 to listen to the top news')
   gather.say('Press or say 5 to get the weather for a location')
-  gather.say('Press or say 6 to get directions from home to destination')
+  gather.say('Press or say 6 to find the nearest gas stations for a location')
+  gather.say('Press or say 7 to get directions from home to destination')
 
   // Render the response as XML in reply to the webhook request
   res.type('text/xml');
@@ -145,7 +148,7 @@ app.post('/menu', (req, res) => {
     case 5:
       const gather = voice.gather({
         input: 'speech',
-        timeout: 3,
+        timeout: 4,
         action : "/weather",
         method: 'GET'
       });
@@ -154,6 +157,31 @@ app.post('/menu', (req, res) => {
       res.send(voice.toString());
       break
 
+    case 6:
+      const gather1 = voice.gather({
+        input: 'speech',
+        timeout: 4,
+        action : "/gas",
+        method: 'GET'
+      });
+      gather1.say('Say a location');
+      res.type('text/xml');
+      res.send(voice.toString());
+      break
+
+      case 7:
+        const gather2 = voice.gather({
+          input: 'speech',
+          timeout: 5,
+          action : "/direction",
+          method: 'GET'
+        });
+        gather2.say('Say the current location and the destination');
+        res.type('text/xml');
+        res.send(voice.toString());
+        break
+
+    
     default:
       voice.say("Goodbye, call back anytime")
       voice.pause({length:1})
@@ -166,6 +194,16 @@ app.post('/menu', (req, res) => {
 app.get('/weather', (req, res) => {
     let location = req.query.SpeechResult
     getWeatherVoice(location, res)
+})
+
+app.get('/gas', (req, res) => {
+  let location = req.query.SpeechResult
+  getGasVoice(location, res)
+})
+
+app.get('/direction', (req, res) => {
+  let location = req.query.SpeechResult.split("and")
+  directionVoice(location[0], location[1], res)
 })
 
 app.get('/', function (req, res) {
