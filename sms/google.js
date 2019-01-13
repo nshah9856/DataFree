@@ -22,8 +22,9 @@ function search(search, to, num){
             if (i < num){
                 let title = out.items[i].title
                 let summary = out.items[i].snippet
-                
-                string += `${parseInt(i) + 1}. ${title}\n${summary}\n\n`
+                let link = out.items[i].link
+
+                string += `${parseInt(i) + 1}. ${title}\n${summary}\n${link}\n\n`
             }
         }
         await client.messages.create({

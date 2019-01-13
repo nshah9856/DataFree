@@ -17,11 +17,11 @@ function search(search, res){
         const out = await data.json()
         let string = `Top Google results for ${search}:\n`
         for (i in out.items){
-            if (i < num){
+            if (i < 5){
                 let title = out.items[i].title
                 let summary = out.items[i].snippet
                 
-                string += `${title}tabs${summary}\n`
+                string += `Title: ${title}tabsSummary: ${summary}\n`
             }
         }
         const response = new VoiceResponse()
