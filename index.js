@@ -11,6 +11,7 @@ const getRedditPosts = require('./reddit')
 const getTwitterPosts = require('./twitter')
 const getNews = require("./news.js");
 const getDirections = require("./directions.js")
+const getGas = require("./gas.js")
 
 const app = express()
 
@@ -26,21 +27,23 @@ app.post('/sms', (req, res) => {
     }
 
     else if(user_message.startsWith("list")){
-      let help = "Always know what is trending...\n" + 
-      "     Trending twitter    [results]\n" + 
-      "     Trending reddit     [results]\n" + 
-      "     Trending news      [results]\n" + 
-      "     Trending youtube [results]\n" + 
+      let help = "Always know what is trending...\n" +
+      "     Trending twitter    [results]\n" +
+      "     Trending reddit     [results]\n" +
+      "     Trending news      [results]\n" +
+      "     Trending youtube [results]\n" +
       "\nAsk for weather in any location...\n"+
-      "     What is the weather in (location)\n" + 
+      "     What is the weather in (location)\n" +
       "\nGet directions without needing wifi/data...\n" +
-      "     Direction from (start) to (destination)\n"
+      "     Direction from (start) to (destination)\n" +
+      "\nFind nearby gas stations...\n" +
+      "     Gas closest to (origin address) (results)"
       twiml.message(help)
     }
 
     else if (user_message.startsWith("what is the weather in") ){
       getWeather(user_message.substring(user_message.indexOf("in")+3,user_message.length), req.body.From)
-    } 
+    }
 
     else if (user_message.startsWith("trending youtube")){
       getYoutubeTrending(req.body.From,user_message.split(' ')[2] ? parseInt(user_message.split(' ')[2]) : 5)
@@ -64,10 +67,18 @@ app.post('/sms', (req, res) => {
       getDirections(user_message.substring(endFromIndex,startToIndex), user_message.split("to")[1],req.body.From)
     }
 
+    else if(user_message.startsWith("gas closest to")) {
+        var usrInput = user_message.split("gas closest to ")[1];
+        var resultsLastIndex = usrInput.lastIndexOf(" ");
+        getGas(req.body.From, usrInput.substring(0, resultsLastIndex), parseInt(usrInput.substring(resultsLastIndex+1)));
+
+
+    }
+
     else if (user_message == 'bye') {
       twiml.message('Goodbye :)');
-    } 
-    
+    }
+
     else {
       twiml.message(
         'Please enter a valid command. Type \"list\" to know the commands!.'
@@ -95,7 +106,7 @@ app.post('/voice', (req, res) => {
   // Render the response as XML in reply to the webhook request
   res.type('text/xml');
   res.send(voice.toString());
-  
+
 })
 
 app.get('/weather', (req, res) => {
@@ -105,7 +116,7 @@ app.get('/weather', (req, res) => {
 
 app.get('/', function (req, res) {
   res.send('hello world')
-  
+
 })
 
 http.createServer(app).listen(process.env.PORT || 1337, ()=> console.log("Listening on port 1337"))
