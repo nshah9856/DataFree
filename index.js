@@ -4,8 +4,13 @@ var bodyParser = require('body-parser');
 const MessagingResponse = require("twilio").twiml.MessagingResponse
 const VoiceResponse = require("twilio").twiml.VoiceResponse
 
+const getWeatherVoice = require("./voice/weatherVoice.js")
+const getTwitterVoice = require("./voice/twitterVoice.js")
+const getRedditVoice = require("./voice/redditVoice.js")
+const getNewsVoice = require("./voice/newsVoice.js")
+const getYoutubeVoice = require("./voice/youtubeVoice.js")
+
 const getWeather = require("./weather.js");
-const getWeatherVoice = require("./weatherVoice.js")
 const getYoutubeTrending = require("./youtube.js");
 const getRedditPosts = require('./reddit')
 const getTwitterPosts = require('./twitter')
@@ -93,19 +98,68 @@ app.post('/sms', (req, res) => {
 
 app.post('/voice', (req, res) => {
   const voice = new VoiceResponse();
+  voice.pause({length:1})
+  voice.say("Hello! Welcome to Aletify")
+  voice.pause({length:1})
 
   const gather = voice.gather({
-    input: 'speech',
-    timeout: 2,
-    action : "/weather",
-    method: 'GET'
-  });
-  gather.say('Say a location');
-
+    input: 'speech dtmf',
+    action : '/menu',
+    timeout:"3",
+    numDigits:"1"
+  })
+  gather.say('Press or say 1 to listen to the trending twitter hashtags')
+  gather.say('Press or say 2 to listen to the trending Youtube video titles')
+  gather.say('Press or say 3 to listen to the trending reddit posts titles')
+  gather.say('Press or say 4 to listen to the top news')
+  gather.say('Press or say 5 to get the weather for a location')
+  gather.say('Press or say 6 to get directions from home to destination')
 
   // Render the response as XML in reply to the webhook request
   res.type('text/xml');
   res.send(voice.toString());
+
+})
+
+app.post('/menu', (req, res) => {
+  let input = parseInt(req.body.Digits) || parseInt(req.body.SpeechResult)
+  const voice = new VoiceResponse();
+
+  switch(input){
+    case 1:
+      getTwitterVoice(res)
+      break
+
+    case 2:
+      getYoutubeVoice(res)
+      break
+
+    case 3:
+      getRedditVoice(res)
+      break
+      
+    case 4:
+      getNewsVoice(res)
+      break
+
+    case 5:
+      const gather = voice.gather({
+        input: 'speech',
+        timeout: 3,
+        action : "/weather",
+        method: 'GET'
+      });
+      gather.say('Say a location');
+      res.type('text/xml');
+      res.send(voice.toString());
+      break
+
+    default:
+      voice.say("Goodbye, call back anytime")
+      voice.pause({length:1})
+      res.type('text/xml');
+      res.send(voice.toString());
+  }
 
 })
 
@@ -116,7 +170,6 @@ app.get('/weather', (req, res) => {
 
 app.get('/', function (req, res) {
   res.send('hello world')
-
 })
 
 http.createServer(app).listen(process.env.PORT || 1337, ()=> console.log("Listening on port 1337"))
