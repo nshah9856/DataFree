@@ -16,6 +16,14 @@
   "bugs": {
     "url": "https://github.com/nshah9856/Alertify/issues"
   },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "*.{js,json,css,md}": ["prettier --write", "git add"]
+    },
   "homepage": "https://github.com/nshah9856/Alertify#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -24,6 +32,7 @@
     "express": "^4.16.4",
     "http": "0.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "prettier": "^1.15.3",
     "twilio": "^3.27.1",
     "twit": "^2.2.11",
     "unirest": "^0.5.1"
